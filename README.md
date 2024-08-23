@@ -4,8 +4,8 @@
 
 Набор компонентов позволяет реализовать картотеку записей с обложками, вывести записи в виде сетки с возможностью фильтрации и сортировки.
 
-<img src="/images/card-list.png" width="50%">
-<img src="/images/card.png" width="50%">
+<img src="/images/card-list.png" width="45%">
+<img src="/images/card.png" width="45%">
 
 ## Функционал
 
