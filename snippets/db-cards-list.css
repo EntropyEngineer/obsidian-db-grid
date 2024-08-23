@@ -1,0 +1,243 @@
+/**
+    таблица в виде карточек
+*/
+.db-cards-list {
+  --db-cards-list-width: 88%;
+  --db-cards-list-max-width: 88%;
+
+  --db-cards-list-item-min-width: 240px;
+  --db-cards-list-image-height: 320px;
+}
+
+/**
+  Установка ширины всех блоков
+  в режиме просмотра и редактирования
+*/
+.db-cards-list.markdown-preview-view.is-readable-line-width
+  .markdown-preview-sizer
+  > div,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-contentContainer.cm-contentContainer
+  > .cm-content
+  > div,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-sizer
+  > .embedded-backlinks,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-sizer
+  > .inline-title,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-sizer
+  > .metadata-container,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-contentContainer.cm-contentContainer
+  > .cm-content
+  > div:has(> .block-language-dataview > table),
+.db-cards-list.markdown-preview-view.is-readable-line-width
+  .markdown-preview-sizer
+  > div,
+.db-cards-list.markdown-preview-view.is-readable-line-width
+  .markdown-preview-sizer
+  > div:has(> .block-language-dataview > table) {
+  width: var(--db-cards-list-width);
+  max-width: var(--db-cards-list-max-width);
+}
+
+/**
+  Установка ширины таблицы на всю доступную область
+  в режиме просмотра и редактирования  
+*/
+.db-cards-list.markdown-preview-view.is-readable-line-width
+  .markdown-preview-sizer
+  table,
+.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
+  .cm-contentContainer.cm-contentContainer
+  > .cm-content
+  table {
+  width: 100%;
+}
+
+/**
+  Скрытие заголовка таблицы
+*/
+.db-cards-list table.dataview.table-view-table thead {
+  display: none;
+}
+
+/**
+  Перестроение таблицы в виде сетки
+*/
+.db-cards-list table.dataview.table-view-table tbody {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--db-cards-list-item-min-width), 1fr)
+  );
+  grid-gap: 24px;
+}
+
+/**
+  Очистка отступов в ячейках и строках
+*/
+.db-cards-list table.dataview.table-view-table tr,
+.db-cards-list table.dataview.table-view-table tr > td {
+  margin: 0;
+  padding: 0;
+}
+
+/**
+  Перестроение строки таблицы в колонку
+*/
+.db-cards-list table.dataview.table-view-table tr {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/**
+  Назначение ячейкам ширины по родительскому элементу
+*/
+.db-cards-list
+  .markdown-preview-view:not(.cards)
+  .table-view-table
+  > tbody
+  > tr
+  > td,
+.db-cards-list
+  .markdown-source-view.mod-cm6:not(.cards)
+  .table-view-table
+  > tbody
+  > tr
+  > td {
+  display: flex;
+  max-width: initial;
+}
+
+/**
+  Перенос текста в ячейках
+*/
+.db-cards-list table.dataview.table-view-table tr > td > span {
+  white-space: initial;
+}
+
+/**
+  Приведение обложек к общему виду
+  td:first-child > img лучше не использовать т.к. dataview-js вставляет между этими элементами span
+*/
+.db-cards-list table.dataview.table-view-table tr > td:first-child img {
+  width: 100%;
+  height: var(--db-cards-list-image-height);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.db-cards-list.db-cards-list-transparent
+  table.dataview.table-view-table
+  tr
+  > td:first-child
+  img {
+  background: none;
+  object-position: left;
+  border-radius: 0;
+}
+
+/**
+  Увеличение размера текста второй ячейки так как она содержит заголовок
+*/
+.db-cards-list table.dataview.table-view-table tr > td:nth-child(2) {
+  font-size: var(--font-adaptive-normal);
+}
+
+/**
+  Сокрытие атрибута "cssclasses" из метаданных
+  в режиме просмотра
+*/
+.db-cards-list.markdown-preview-view
+  .metadata-properties
+  > .metadata-property[data-property-key="cssclasses"] {
+  display: none;
+}
+
+/**
+  Панель фильтрации
+*/
+.db-cards-list .db-cards-list-filters {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 24px;
+  gap: 4px 16px;
+}
+
+.db-cards-list .db-cards-list-filters .db-cards-list-counters__total,
+.db-cards-list .db-cards-list-filters > .db-cards-list__filter-caption {
+  color: var(--nav-item-color);
+  font-size: var(--font-ui-small);
+  display: inline-block;
+}
+
+.db-cards-list .db-cards-list-filters > .db-cards-list__filter-divider {
+  grid-column: span 2;
+  margin: 4px 0;
+  border-top: var(--tab-outline-width) solid var(--tab-outline-color);
+}
+
+.db-cards-list .db-cards-list-filters > .db-cards-list__filter-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 22px;
+  align-items: center;
+}
+
+.db-cards-list
+  .db-cards-list-filters
+  > .db-cards-list__filter-body
+  label
+  > input {
+  display: none;
+}
+
+.db-cards-list .db-cards-list-filters .db-cards-list-counters__total {
+  margin-right: 8px;
+  color: var(--text-normal);
+}
+
+.db-cards-list .db-cards-list-filters .db-cards-list-button,
+.db-cards-list
+  .db-cards-list-filters
+  > .db-cards-list__filter-body
+  label
+  > input
+  + span {
+  box-shadow: none;
+  height: auto;
+  cursor: pointer;
+  display: inline-block;
+  background-color: var(--background-secondary);
+  color: var(--nav-item-color);
+  font-size: var(--font-ui-small);
+  border-radius: var(--radius-s);
+  padding: 2px 8px;
+}
+
+.db-cards-list .db-cards-list-button:hover,
+.db-cards-list
+  .db-cards-list-filters
+  > .db-cards-list__filter-body
+  label:hover
+  > span {
+  color: var(--nav-item-color-active);
+  background-color: var(--nav-item-background-active);
+}
+
+.db-cards-list
+  .db-cards-list-filters
+  > .db-cards-list__filter-body
+  label
+  > input:checked
+  + span {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}

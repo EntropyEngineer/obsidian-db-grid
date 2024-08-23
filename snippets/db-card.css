@@ -1,0 +1,163 @@
+/**
+    Слева обложка, справа свойства
+*/
+
+.db-card {
+  --db-card-image-width: 320px;
+  --db-card-image-height: 320px;
+  --db-card-delimiter-color: rgb(228, 228, 228);
+
+  --db-card-width: 800px;
+  --db-card-compact-width: 88%;
+}
+
+/**
+  Ширина контента
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view.is-readable-line-width
+  .markdown-preview-sizer
+  > div {
+  width: var(--db-card-width);
+  max-width: var(--db-card-width);
+}
+
+/**
+  Назначение элемента контейнером, для использования его размера как опорной точки
+  в режиме просмотра
+*/
+.db-card .markdown-preview-sizer.markdown-preview-section {
+  container-type: inline-size;
+  container-name: db-card-preview-section;
+}
+
+/**
+  Позиционирование обложки
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view img[alt="cover"] {
+  width: var(--db-card-image-width);
+  height: var(--db-card-image-height);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  position: absolute;
+  top: 72px;
+  left: calc((100% - var(--db-card-width)) / 2);
+}
+
+/**
+ Модификатор прозрачности фона для блока обложки
+*/
+.db-card.db-card-transparent.markdown-preview-view img[alt="cover"] {
+  background: none;
+}
+
+/**
+  Позиционирование обложки
+  в режиме редактирования
+*/
+.db-card.is-live-preview img[alt="cover"] {
+  width: 100%;
+  height: var(--db-card-image-height);
+  object-fit: contain;
+  border-top: 1px solid var(--db-card-delimiter-color);
+  border-bottom: 1px solid var(--db-card-delimiter-color);
+  padding: 8px 0;
+  border-radius: 0;
+}
+
+/**
+  Центрирование заголовка
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view .inline-title {
+  text-align: center;
+}
+
+/**
+  Отступ метаданных от левого края
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view .metadata-container {
+  padding-left: calc(var(--db-card-image-width) + 16px);
+  min-height: calc(var(--db-card-image-height) + 32px);
+  border-top: 1px solid var(--db-card-delimiter-color);
+  border-bottom: 1px solid var(--db-card-delimiter-color);
+}
+
+
+@container db-card-preview-section (width <= 900px) {
+  /**
+    Ширина контента при узкой рабочей области
+    в режиме просмотра
+  */
+  .db-card.markdown-preview-view.is-readable-line-width
+    .markdown-preview-sizer
+    > div {
+    width: var(--db-card-compact-width);
+    max-width: var(--db-card-compact-width);
+  }
+
+  /**
+    Позиционирование обложки при узкой рабочей области
+    в режиме просмотра
+  */
+  .db-card.markdown-preview-view img[alt="cover"] {
+    left: calc((100% - var(--db-card-compact-width)) / 2);
+  }
+}
+
+@container db-card-preview-section (width <= 740px) {
+  /**
+    Позиционирование обложки, когда не хватает места для размещения вместе с метаданными
+    в режиме просмотра
+  */
+  .db-card.markdown-preview-view img[alt="cover"] {
+    position: relative;
+    top: 6px;
+    left: auto;
+    width: 100%;
+  }
+
+  /**
+    Позиционирование метаданных, когда не хватает места для размещения вместе с обложкой
+    в режиме просмотра
+  */
+  .db-card.markdown-preview-view .metadata-container {
+    padding-left: 0;
+    min-height: auto;
+  }
+}
+
+/**
+  Сокрытие атрибута "cssclasses" из метаданных
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view
+  .metadata-properties
+  > .metadata-property[data-property-key="cssclasses"] {
+  display: none;
+}
+
+/**
+  Сокрытие атрибута "cover" из метаданных
+  в режиме просмотра
+*/
+.db-card.markdown-preview-view
+  .metadata-properties
+  > .metadata-property[data-property-key="cover"] {
+  display: none;
+}
+
+/**
+  Отмена ограничения на количество строк в значении метаданных
+*/
+.db-card.markdown-preview-view
+  .metadata-properties
+  > .metadata-property
+  > .metadata-property-value
+  > .metadata-input-longtext {
+  -webkit-line-clamp: initial;
+}
