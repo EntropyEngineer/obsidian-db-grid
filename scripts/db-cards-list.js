@@ -7,6 +7,7 @@ class CatalogGenerator {
     filters = {},
     catalogPropertyName = "Категория",
     visibleFilterLimit = 0,
+    labelMode = "hidden",
   } = {}) {
     this.container = container;
     this.noteNameForSort = noteNameForSort;
@@ -15,10 +16,15 @@ class CatalogGenerator {
     this.filters = filters;
     this.catalogPropertyName = catalogPropertyName;
     this.visibleFilterLimit = visibleFilterLimit;
+    this.labelMode = labelMode;
 
     this.currentNotePath = dv.current().file.path;
     this.filtersEl = this.container.createEl("div", {
       cls: "db-cards-list-filters",
+    });
+
+    this.gridEl = this.container.createEl("div", {
+      cls: "db-cards-list-items",
     });
 
     this.generateCounters();
@@ -64,7 +70,7 @@ class CatalogGenerator {
         item.checked = false;
       });
 
-      this.updateTable();
+      this.updateGrid();
     };
 
     this.filtersEl.createEl("div", {
@@ -170,6 +176,10 @@ class CatalogGenerator {
     Object.keys(this.filters).forEach((propertyName) => {
       const sortedAttributes = this.attributesList(propertyName).sort(
         (a, b) => {
+          if (a === null || b === null) {
+            return a === null ? -1 : 1;
+          }
+
           if (typeof a === "boolean" && typeof b === "boolean") {
             return b - a;
           }
@@ -258,7 +268,7 @@ class CatalogGenerator {
     opt.type = inputType;
     opt.value = value;
     opt.name = inputName;
-    opt.onchange = () => this.updateTable();
+    opt.onchange = () => this.updateGrid();
 
     label.appendChild(opt);
     label.appendChild(labelText);
@@ -339,11 +349,7 @@ class CatalogGenerator {
   /**
    * Генерация списка заметок
    */
-  async updateTable() {
-    if (this.container.children.length > 1) {
-      this.container.removeChild(this.container.lastChild);
-    }
-
+  async updateGrid() {
     const sortBy = this.sortingBlockBody.querySelector("input:checked");
 
     const [sortField, sortDirection] = sortBy.value.split("_");
@@ -398,37 +404,81 @@ class CatalogGenerator {
     const filteredCount = pages.length;
 
     this.updateCounters(totalCount, filteredCount, filterValues);
+    this.renderGrid(pages);
+  }
 
-    dv.table(
-      ["Poster", this.noteNameForSort, ...this.columns],
-      pages.map((p) => {
-        const columnsData = [
-          p.cover
-            ? `<img src="${app.vault.getResourcePath(
-                dv.fileLink(p.cover.path)
-              )}">`
-            : "",
-          p.file.link,
-        ];
+  /**
+   * Генерация сетки элементов
+   * @param {Array} items
+   */
+  renderGrid(items) {
+    this.gridEl.innerHTML = "";
 
-        this.columns.forEach((columnName) => {
-          let columnData = Array.isArray(p[columnName])
-            ? p[columnName].join(", ")
-            : p[columnName];
+    items.forEach((item) => {
+      const itemEl = this.gridEl.createEl("div", {
+        cls: `db-cards-list-item db-cards-list-item-mode-${this.labelMode}`,
+      });
 
-          if (p[columnName] === true) {
-            columnData = columnName;
-          }
-
-          if (columnData) {
-            columnsData.push(columnData);
-          }
+      if (item.cover) {
+        itemEl.createEl("img", {
+          cls: "db-cards-list-item__cover",
+          attr: {
+            src: app.vault.getResourcePath(dv.fileLink(item.cover.path)),
+          },
         });
+      }
 
-        return columnsData;
-      }),
-      { container: this.container }
-    );
+      itemEl.createEl("a", {
+        cls: "db-cards-list-item__tittle internal-link",
+        text: item.file.name,
+        attr: {
+          href: item.file.link.path,
+        },
+      });
+
+      this.columns.forEach((columnName) => {
+        const propContainer =
+          this.labelMode !== "line"
+            ? itemEl
+            : itemEl.createEl("div", {
+                cls: "db-cards-list-item__line",
+              });
+
+        let columnLabel = columnName;
+        let columnValue = Array.isArray(item[columnName])
+          ? item[columnName].join(", ")
+          : item[columnName];
+
+        if (columnValue === null) {
+          columnValue = "-";
+        }
+
+        if (typeof item[columnName] === "boolean") {
+          columnLabel = columnName;
+
+          if (this.labelMode !== "hidden") {
+            columnValue = item[columnName] ? "✓" : "-";
+          } else {
+            columnValue = columnValue ? columnName : "-";
+          }
+        }
+
+        if (this.labelMode !== "hidden") {
+          propContainer.createEl("div", {
+            cls: "db-cards-list-item__label",
+            text: columnLabel,
+          });
+        }
+
+        propContainer.createEl("div", {
+          cls: "db-cards-list-item__value",
+          text: columnValue,
+          attr: {
+            title: this.labelMode === "hidden" ? columnLabel : null,
+          },
+        });
+      });
+    });
   }
 }
 

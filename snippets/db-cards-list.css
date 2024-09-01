@@ -44,30 +44,9 @@
 }
 
 /**
-  Установка ширины таблицы на всю доступную область
-  в режиме просмотра и редактирования  
+ Сетка элементов
 */
-.db-cards-list.markdown-preview-view.is-readable-line-width
-  .markdown-preview-sizer
-  table,
-.db-cards-list.markdown-source-view.mod-cm6.is-readable-line-width
-  .cm-contentContainer.cm-contentContainer
-  > .cm-content
-  table {
-  width: 100%;
-}
-
-/**
-  Скрытие заголовка таблицы
-*/
-.db-cards-list table.dataview.table-view-table thead {
-  display: none;
-}
-
-/**
-  Перестроение таблицы в виде сетки
-*/
-.db-cards-list table.dataview.table-view-table tbody {
+.db-cards-list .db-cards-list-items {
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
@@ -76,55 +55,19 @@
   grid-gap: 24px;
 }
 
-/**
-  Очистка отступов в ячейках и строках
-*/
-.db-cards-list table.dataview.table-view-table tr,
-.db-cards-list table.dataview.table-view-table tr > td {
-  margin: 0;
-  padding: 0;
-}
-
-/**
-  Перестроение строки таблицы в колонку
-*/
-.db-cards-list table.dataview.table-view-table tr {
+.db-cards-list .db-cards-list-items > .db-cards-list-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-/**
-  Назначение ячейкам ширины по родительскому элементу
-*/
-.db-cards-list
-  .markdown-preview-view:not(.cards)
-  .table-view-table
-  > tbody
-  > tr
-  > td,
-.db-cards-list
-  .markdown-source-view.mod-cm6:not(.cards)
-  .table-view-table
-  > tbody
-  > tr
-  > td {
-  display: flex;
-  max-width: initial;
-}
-
-/**
-  Перенос текста в ячейках
-*/
-.db-cards-list table.dataview.table-view-table tr > td > span {
-  white-space: initial;
+  gap: 4px;
 }
 
 /**
   Приведение обложек к общему виду
-  td:first-child > img лучше не использовать т.к. dataview-js вставляет между этими элементами span
 */
-.db-cards-list table.dataview.table-view-table tr > td:first-child img {
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item
+  > .db-cards-list-item__cover {
   width: 100%;
   height: var(--db-cards-list-image-height);
   object-fit: contain;
@@ -134,20 +77,38 @@
 }
 
 .db-cards-list.db-cards-list-transparent
-  table.dataview.table-view-table
-  tr
-  > td:first-child
-  img {
+  .db-cards-list-items
+  > .db-cards-list-item
+  > .db-cards-list-item__cover {
   background: none;
   object-position: left;
   border-radius: 0;
 }
 
-/**
-  Увеличение размера текста второй ячейки так как она содержит заголовок
-*/
-.db-cards-list table.dataview.table-view-table tr > td:nth-child(2) {
-  font-size: var(--font-adaptive-normal);
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item
+  .db-cards-list-item__label {
+  color: var(--metadata-label-text-color);
+  font-size: var(--metadata-label-font-size);
+  font-weight: var(--metadata-label-font-weight);
+}
+
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item
+  .db-cards-list-item__label::after {
+    display: inline-block;
+    content: ":";
+    margin-right: 4px;
+  }
+
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item
+  .db-cards-list-item__value {
+    color: var(--metadata-input-text-color);
+    font-size: var(--metadata-input-font-size);
 }
 
 /**
@@ -158,6 +119,35 @@
   .metadata-properties
   > .metadata-property[data-property-key="cssclasses"] {
   display: none;
+}
+
+/**
+  Режим вывода подписей в линию
+*/
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item
+  > .db-cards-list-item__line {
+  display: flex;
+}
+
+/**
+  Режим вывода подписей двумя колонками
+*/
+.db-cards-list .db-cards-list-items > .db-cards-list-item-mode-columns {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item-mode-columns
+  > .db-cards-list-item__cover,
+.db-cards-list
+  .db-cards-list-items
+  > .db-cards-list-item-mode-columns
+  > .db-cards-list-item__tittle {
+  grid-column: 1 / -1;
 }
 
 /**
