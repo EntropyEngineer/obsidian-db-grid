@@ -4,8 +4,7 @@
 
 Набор компонентов позволяет реализовать картотеку записей с обложками, вывести записи в виде сетки с возможностью фильтрации и сортировки.
 
-<img src="/images/card-list.jpg" width="45%">
-<img src="/images/card.jpg" width="45%">
+<img src="/images/card-list.jpg" width="45%" hspace="8"><img src="/images/card.jpg" width="45%" hspace="8">
 
 ## Функционал
 
@@ -177,10 +176,7 @@ const catalogGeneratorOptions = {
 - columns - подписи и значения расположены в две колонки
 - hidden - подписи не выводятся, как в версии 1.0
 
-<img src="/images/label_1_line.jpg" width="33%">
-<img src="/images/label_2_column.jpg" width="33%">
-<img src="/images/label_3_columns.jpg" width="33%">
-<img src="/images/label_4_hidden.jpg" width="33%">
+<img src="/images/label_1_line.jpg" width="23%" hspace="8"><img src="/images/label_2_column.jpg" width="23%" hspace="8"><img src="/images/label_3_columns.jpg" width="23%" hspace="8"><img src="/images/label_4_hidden.jpg" width="23%" hspace="8">
 
 ### Примечания
 
