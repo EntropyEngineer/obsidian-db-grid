@@ -92,6 +92,8 @@
   color: var(--metadata-label-text-color);
   font-size: var(--metadata-label-font-size);
   font-weight: var(--metadata-label-font-weight);
+
+  flex-shrink: 0;
 }
 
 .db-cards-list
