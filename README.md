@@ -182,7 +182,7 @@ const catalogGeneratorOptions = {
 
 <img src="/images/label_1_line.jpg" width="23%" hspace="8"><img src="/images/label_2_column.jpg" width="23%" hspace="8"><img src="/images/label_3_columns.jpg" width="23%" hspace="8"><img src="/images/label_4_hidden.jpg" width="23%" hspace="8">
 
-### Отключение вывода обложек
+#### Отключение вывода обложек
 
 ````
 const catalogGeneratorOptions = {

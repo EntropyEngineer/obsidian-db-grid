@@ -435,7 +435,7 @@ class CatalogGenerator {
           });
         }
       }
-      
+
       itemEl.createEl("a", {
         cls: "db-cards-list-item__tittle internal-link",
         text: item.file.name,
