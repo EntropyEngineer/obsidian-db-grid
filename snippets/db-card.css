@@ -54,6 +54,10 @@
   background: none;
 }
 
+.db-card.db-card-cover.markdown-preview-view img[alt="cover"] {
+  object-fit: cover;
+}
+
 /**
   Позиционирование обложки
   в режиме редактирования

@@ -61,6 +61,16 @@
   gap: 4px;
 }
 
+.db-cards-list.db-cards-list-bordered .db-cards-list-items {
+  grid-gap: 8px;
+}
+
+.db-cards-list.db-cards-list-bordered .db-cards-list-items > .db-cards-list-item {
+  border: var(--tab-outline-width) solid var(--tab-outline-color);
+  border-radius: var(--radius-s);
+  padding: 16px;
+}
+
 /**
   Приведение обложек к общему виду
 */
@@ -72,7 +82,7 @@
   height: var(--db-cards-list-image-height);
   object-fit: contain;
   background: #fff;
-  border-radius: 8px;
+  border-radius: var(--radius-s);
   overflow: hidden;
 }
 
@@ -83,6 +93,14 @@
   background: none;
   object-position: left;
   border-radius: 0;
+  border-radius: var(--radius-s);
+}
+
+.db-cards-list.db-cards-list-cover
+  .db-cards-list-items
+  > .db-cards-list-item
+  > .db-cards-list-item__cover {
+    object-fit: cover;
 }
 
 .db-cards-list

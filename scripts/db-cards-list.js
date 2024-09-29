@@ -7,7 +7,8 @@ class CatalogGenerator {
     filters = {},
     catalogPropertyName = "Категория",
     visibleFilterLimit = 0,
-    labelMode = "hidden",
+    labelMode = "line",
+    noCovers = false,
   } = {}) {
     this.container = container;
     this.noteNameForSort = noteNameForSort;
@@ -17,6 +18,7 @@ class CatalogGenerator {
     this.catalogPropertyName = catalogPropertyName;
     this.visibleFilterLimit = visibleFilterLimit;
     this.labelMode = labelMode;
+    this.noCovers = noCovers;
 
     this.currentNotePath = dv.current().file.path;
     this.filtersEl = this.container.createEl("div", {
@@ -419,15 +421,21 @@ class CatalogGenerator {
         cls: `db-cards-list-item db-cards-list-item-mode-${this.labelMode}`,
       });
 
-      if (item.cover) {
-        itemEl.createEl("img", {
-          cls: "db-cards-list-item__cover",
-          attr: {
-            src: app.vault.getResourcePath(dv.fileLink(item.cover.path)),
-          },
-        });
+      if (!this.noCovers) {
+        if (item.cover) {
+          itemEl.createEl("img", {
+            cls: "db-cards-list-item__cover",
+            attr: {
+              src: app.vault.getResourcePath(dv.fileLink(item.cover.path)),
+            },
+          });
+        } else {
+          itemEl.createEl("div", {
+            cls: "db-cards-list-item__cover",
+          });
+        }
       }
-
+      
       itemEl.createEl("a", {
         cls: "db-cards-list-item__tittle internal-link",
         text: item.file.name,
